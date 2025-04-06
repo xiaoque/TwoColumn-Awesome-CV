@@ -1,0 +1,39 @@
+
+
+\documentclass[11pt,a4paper]{cvformat} % a4paper for A4
+
+\fontdir[fonts/]
+
+%-------------------------------------------------------------------------------
+%	PERSONAL INFORMATION
+%	Comment any of the lines below if they are not required
+%-------------------------------------------------------------------------------
+% Available options: circle|rectangle,edge/noedge,left/right
+% \photo[rectangle,edge,right]{./examples/profile}
+\position{Job title} % Job title/career
+\name{First LAST} % Your name
+\pdftitle{}
+
+\mobile{+12 12345678}
+\location{City, Postal}  
+\linkedin{linkedin-name}
+\github{name-surname-github}     
+\email{xxxxxx@email.com}
+
+%-------------------------------------------------------------------------------
+
+\begin{document}
+\twocolumncv{
+   
+    \aboutme{Short text about me. Amidst the bustling city streets, where the hum of life never fades, there exists a quiet corner where time slows down. The sun gently filters through the leaves of ancient trees, casting dappled light on the cobblestone paths. }
+    \input{resume/experience.tex}
+
+}{ 
+    \nameposition
+    \makeinfoprofile
+    \input{resume/skill.tex}
+    \input{resume/education.tex}
+    \input{resume/lang.tex}
+}
+
+\end{document}
