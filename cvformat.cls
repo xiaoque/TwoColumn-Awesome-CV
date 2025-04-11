@@ -1,4 +1,6 @@
 %%
+%% Copyright (c) 2018-2025 xiaoque
+%% https://github.com/xiaoque/TwoColumnResume-latex
 %%
 %% Resume LaTeX template.
 %% Based on
@@ -69,8 +71,8 @@
 \usepackage{graphicx}  
 % Needed for optional input
 \usepackage{xparse}
-
-\usepackage[normalem]{ulem} % for underline
+% Needed for customize underline
+\usepackage[normalem]{ulem}
 
 \AtBeginDocument{%
   \hypersetup{%
@@ -131,7 +133,6 @@
 %-------------------------------------------------------------------------------
 %                Configuration for fonts
 %-------------------------------------------------------------------------------
-% Set the FontAwesome font to be up-to-date.
 
 % Set font for header (default is Roboto)
 \newfontfamily\headerfont[
@@ -186,8 +187,8 @@
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
-% Use to draw horizontal line with specific thickness
-
+% Use to draw horizontal line with specific thickness and color
+% Usage \vhrulefill{<color>}{<e.g, 0.4pt>}
 \def\vhrulefill#1#2{%
   \leavevmode
   \vskip -5mm 
@@ -195,26 +196,40 @@
   \vskip -1mm 
 }
 
-% horizontal line for side column
+% Horizontal line for side column with specific thickness and color
+% Usage \vhrulesidefill{<color>}{<e.g, 0.4pt>}
 \def\vhrulesidefill#1#2{%
   \leavevmode
   \vskip -8mm 
   \hbox to \textwidth{
-    \hspace{0.3cm} % Adjust the left margin here (10mm is just an example)
+    \hspace{0.3cm} % Adjust the left margin here
     \hss \textcolor{#1}{\rule{\textwidth - 0.3cm}{#2}} \hss
   }%
   \vskip -1mm 
 }
 
+% Define style for itemize
 \setlist[itemize,1]{label=-, nosep, leftmargin=1em,topsep=2pt, partopsep=0pt,itemsep=2pt, parsep=0pt}
 
-% custom href with a underline
+% Custom href with a underline
+% Usage \ulink{<link>}{<text>}
 \newcommand{\ulink}[2]{%
   \href{#1}{\textcolor{graytext}{\uline{#2}}}%
 }
 
+% Width of the left margin for side column
+\newlength{\leftmarginwidth}
+\setlength{\leftmarginwidth}{5mm}
 
-% adjust icon size
+% Width of the left column for experience
+\newlength{\leftcolumnwidthexperience}
+\setlength{\leftcolumnwidthexperience}{12em}
+% Width of the left column for language
+\newlength{\leftcolumnwidthlanguage}
+\setlength{\leftcolumnwidthlanguage}{5em}
+
+% Adjust icon size
+% Usage \fixicon{<iconname>}
 \newcommand{\fixicon}[1]{\resizebox{1em}{1em}{#1}}
 
 
@@ -262,12 +277,12 @@
         \begin{minipage}[t]{\linewidth}#1\end{minipage} 
         &
         \begin{minipage}[t]{0.95\linewidth}
-            \vspace{5mm} 
-            \hspace{5mm} 
+            \vspace{\leftmarginwidth} 
+            \hspace{\leftmarginwidth} 
             \raggedright
              #2
 
-            \hspace{5mm}
+            \hspace{\leftmarginwidth}
         \end{minipage} 
         \\
     
@@ -279,31 +294,38 @@
 %----------------------------------------------------------------------------------------
 %	 SECTION HEADER DEFINITIONS
 %----------------------------------------------------------------------------------------
-
-\newcommand{\mainsection}[1]{
-    \vspace*{3ex}
-    \sectionstyle{#1}
+% Define title for sections
+\newcommand{\sectiontitle}[2]{
+    \vspace*{2.5ex}
+    \hspace{#1}
+    \sectionstyle{#2}
     \par%
     \vspace*{-1.5ex}
+    \hspace{#1}
     {\color{sectionline}\hrulefill}
+}
+
+% Define title for left column
+\newcommand{\mainsectiontitle}[1]{
+    \sectiontitle{0pt}{#1}
     \par
-    \vspace*{0.7ex}
+    \vspace*{0.5ex}
+}
+% Define title for side column
+% Usage \sidesectiontitle{<section name>}
+\newcommand{\sidesectiontitle}[1]{
+    \sectiontitle{10pt}{#1}
 }
 
-\newcommand{\profilesection}[1]{
-    \vspace*{2ex}
-    \hspace{10pt}\sectionstyle{#1}
-    \par%
-    \vspace*{-2ex}
-    \hspace{10pt}{\color{sectionline}\hrulefill}
-}
-
-% header for main section
-\newcommand{\cvsection}[1]{%
+% Define header for main section
+% Usage \cvsection{<section name>}
+\newcommand{\mainsection}[1]{%
   \par\addvspace{1ex}
-  \mainsection{#1}
+  \mainsectiontitle{#1}
   \par\nobreak\addvspace{0.8ex}
 }
+
+
 
 % Unified section for side column
 \newenvironment{sidesection}{
@@ -315,35 +337,34 @@
 %-------------------------------------------------------------------------------
 %                Commands for header (personal info)
 %-------------------------------------------------------------------------------
-% Define a header for CV
+% Define a header (name and position on side column) for CV
+% Usage \nameposition
 \newcommand{\nameposition}{
     \setlength\tabcolsep{0pt}
-    \begin{tabular*}{\textwidth - 0.3cm}{L{0.3cm}L{\textwidth - 0.8cm}}
-    & \headernamestyle{\@name} \\[5mm]
+    \begin{tabular*}{\textwidth}{L{\leftmarginwidth}L{\textwidth - \leftmarginwidth}}
+    & \headernamestyle{\@name} \\[\leftmarginwidth]
     & \headerpositionstyle{\@position}\\
     \end{tabular*}
     \par\addvspace{1em}    
 }
 
-\newcommand{\makeinfoprofile}{
-    \profilesection{Personal Info}
+% Define the section for contact info
+% Usage \makeinfoprofile{<section title>}
+\newcommand{\makeinfoprofile}[1]{
+    \sidesectiontitle{#1}
     \makeinfoList    
 }
 
-\newcommand{\makeinfoprofilefr}{
-    \profilesection{Contact}
-    \makeinfoList    
-}
-
+% Define contents for contact info
 \newcommand{\makeinfoList}{
     \setlength\tabcolsep{0pt}
     \par\addvspace{1em}
-    \begin{tabular*}{\textwidth - 0.3cm}{L{0.5cm}L{0.7cm}L{\textwidth - 1.5cm}}
+    \begin{tabular*}{\textwidth}{L{\leftmarginwidth} L{0.7cm} L{\textwidth - 1.5cm}}
         & {\color{awesome}\fixicon{\faPhone}} & \@mobile \\[2pt]
         & {\color{awesome}\fixicon{\faMapMarker}} &  \@location \\[2pt]
         & {\color{awesome}{\faEnvelope}} & \href{mailto:\@email}{\@email} \\[2pt]
         & {\color{awesome}\fixicon{\faLinkedinSquare}} &  
-                    \href{https://www.linkedin.com/in/\@linkedin}{\@linkedin} \\
+                    \href{https://www.linkedin.com/in/\@linkedin}{\@linkedin} \\[2pt]
         & {\color{awesome}\fixicon{\faGithubSquare}} &  
             \href{https://github.com/\@github}{\@github} \\
     \end{tabular*}
@@ -358,16 +379,17 @@
 %----------------------------------------------------------------------------------------
 %	 SECTIONS IN CV
 %----------------------------------------------------------------------------------------
+% Define section for about me
+% Usage \aboutme{<short presentation>}
 \newcommand{\aboutme}[1]{
-    %\profilesection{About me}
-    \par\addvspace{3em}
+    \mainsectiontitle{About me}
     \begin{justify}
         {#1}
     \end{justify}
 }
 
 
-% Define a CV experience entry
+% Define an experience entry
 % Usage:
 % \experience
 %   {<Position>}         % #1: Job Position (e.g., "Software Engineer")
@@ -375,18 +397,19 @@
 %   {<Location>}         % #3: Location (e.g., "Barcelona")
 %   {<Date>}             % #4: Date range (e.g., "2017–Now")
 %   {<Project>}          % #5: Project name or summary line (e.g., "Real-time Video Analysis System")
-%   {<Description Items>} % #6: Description list as \item elements (e.g., \item Did X \item Built Y)
+%   {<Description Items>} % #6: Description list in itemize (e.g., \begin{itemize} \item{<task 1>} \end{itemize} )
 %   {<Tech Stack>}       % #7: Technologies used (e.g., "Python, Docker, Kubernetes")
-
 \newcommand{\experience}[7]{%
     \vspace{1mm}
     \setlength\tabcolsep{0pt}
-    \begin{tabular*}{\textwidth - 0.1cm}{L{\textwidth - 5.1cm} R{5cm}}
+    \begin{tabular*}{\textwidth}{L{\textwidth - \leftcolumnwidthexperience} R{\leftcolumnwidthexperience}}
         {\largetitlestyle{#2 - } \titlestyle{#1}}   
         & {\graydatestyle{#3 · #4}} \\
     \end{tabular*}
     \vspace{1mm}
     \italictextstyle{#5}
+    % Description should add itemize enviroment
+    % Usage \begin{itemize} \item{<task 1>} \end{itemize}
     \begin{justify}
     {#6}
     \end{justify}
@@ -394,73 +417,81 @@
     \boldtextstyle{Tech Stack:} {#7}
 }
 
+% Define an education entry for the CV
+% Usage:
 % \education
-% #1 = Date
-% #2 = School Abbr
-% #3 = School Full
-% #4 = [Optional description]
-% #5 = Degree
-% #6 = Major
-
+%   {<Date>}            % #1: Date or time period (e.g., "2015–2019")
+%   {<School Abbr>}     % #2: Abbreviated school name (e.g., "MIT")
+%   {<School Full>}     % #3: Full school name (e.g., "Massachusetts Institute of Technology")
+%   [<Description>]     % #4: Optional description or honors (e.g., "Graduated with Honors")
+%   {<Degree>}          % #5: Degree earned (e.g., "B.Sc.")
+%   {<Major>}           % #6: Major or field of study (e.g., "Computer Science")
 \NewDocumentCommand{\education}{m m m o m m}{%
     \vspace{1mm}
     \setlength\tabcolsep{0pt}
     % Row 1: Degree - Major
-    \begin{tabular*}{\textwidth - 0.1cm}{L{0.4cm}L{\textwidth - 0.5cm}}
+    \begin{tabular*}{\textwidth}{L{\leftmarginwidth}L{\textwidth - \leftmarginwidth}}
         & \boldtextstyle{#5 - #6} \\
     \end{tabular*}
     % Row 2: Right-aligned Date
-    \begin{tabular*}{\textwidth - 0.1cm}{L{0.4cm}R{\textwidth - 0.5cm}}
+    \begin{tabular*}{\textwidth}{L{\leftmarginwidth}R{\textwidth - \leftmarginwidth}}
         &  \graydatestyle{#1}\\
     \end{tabular*}
     % Row 3: Optional Description + School
-    \begin{tabular*}{\textwidth - 0.1cm}{L{0.4cm}L{\textwidth - 0.5cm}}
+    \begin{tabular*}{\textwidth}{L{\leftmarginwidth}L{\textwidth - \leftmarginwidth}}
         \IfValueT{#4}{ &\descriptionstyle{#4} \\}
         & \boldtextstyle{#2}, \textit{#3} \\
     \end{tabular*}
     \vspace{1mm}
 }
 
-
+% Define an enviroment for skills
+% Usage \begin{skills} \end{skills}
 \newenvironment{skills}{%
     \noindent
   \begin{flushleft}
     \vspace{1mm}
     \setlength\tabcolsep{0pt}
-    \begin{tabular*}{\textwidth - 0.1cm}{L{0.4cm}L{\textwidth - 0.5cm}}
+    \begin{tabular*}{\textwidth}{L{\leftmarginwidth}L{\textwidth - \leftmarginwidth}}
 }{%
     \end{tabular*}
   \end{flushleft}
 }
 
 
+% Define a skill entry for the CV
+% Usage:
 % \skill
-% #1 = Caption
-% #2 = Details
+%   {<Caption>}       % #1: Skill category or caption (e.g., "Programming Languages")
+%   {<Details>}       % #2: Specific skills or tools
+%                     % (e.g., \begin{itemize} \item{<skill 1>} \end{itemize} )
 \newcommand*{\skill}[2]{%
   & \boldtextstyle{#1 :} \\[0.3ex]
-  & \begin{minipage}[t]{\textwidth - 0.8cm}
+  & \begin{minipage}[t]{\textwidth - 2em}
         {#2}
     \end{minipage} \\
   \vspace{2mm}
 }
 
 
-
+% Define an enviroment for languages
+% Usage \begin{languages} \end{languages}
 \newenvironment{languages}{%
     \noindent
   \begin{flushleft}
     \vspace{2mm}
     \setlength\tabcolsep{0pt}
-    \begin{tabular*}{\textwidth - 0.1cm}{L{0.5cm} L{2cm} L{\textwidth - 2cm}}
+    \begin{tabular*}{\textwidth}{L{\leftmarginwidth} L{\leftcolumnwidthlanguage} L{\textwidth - \leftcolumnwidthlanguage - \leftmarginwidth}}
 }{%
     \end{tabular*}
   \end{flushleft}
 }
-% \laguange
-% #1 = Lang
-% #2 = Fluent / Native ...
+
+% Define a language proficiency entry for the CV
+% Usage:
+% \cvlanguage
+%   {<Language>}         % #1: Language name (e.g., "English")
+%   {<Proficiency>}      % #2: Proficiency level (e.g., "Native", "Fluent", "Intermediate")
 \newcommand*{\cvlanguage}[2]{%
   & \boldtextstyle{#1}  & : {#2} \\[0.3ex]
 }
-
