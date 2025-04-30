@@ -1,12 +1,14 @@
 ## CV 2-column templates
 
-CV templates modified from Awesome CV templates, updated with my preferred layout and section macros
+CV template modified from Awesome CV templates, updated with my preferred layout.
+
+**Usage**: compile with **XeLaTeX**.
 
  [![resume](resume.png)](TwoColumnResume.pdf)
 
 
 
-## Quick Start
+## Awesome CV at OverLeaf
 
 * [**Edit Awesome Résumé on OverLeaf.com**](https://www.overleaf.com/latex/templates/awesome-cv/tvmzpvdjfqxp)
 

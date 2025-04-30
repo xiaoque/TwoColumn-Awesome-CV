@@ -366,10 +366,10 @@
         & {\color{awesome}\fixicon{\faMapMarked}} &  \@location \\[2pt]
         & {\color{awesome}{\faEnvelope}} & \href{mailto:\@email}{\@email} \\[2pt]
         & {\color{awesome}\fixicon{\faGithub}} &  
-            \href{https://github.com/xiaoque}{\@github} \\ [2pt]
+            \href{https://github.com/\@github}{\@github} \\[2pt]
         & {\color{awesome}\fixicon{\faLinkedinIn}} &  
-                \href{https://www.linkedin.com/in/rutian-liu-186b9237}{\@linkedin} \\ [2pt]
-        & {\color{awesome}\fixicon{\faGithub}} & \@license \\
+                    \href{https://www.linkedin.com/in/\@linkedin}{\@linkedin} \\[2pt]
+        & {\color{awesome}\fixicon{\faIdCard}} & \@license \\
     \end{tabular*}
     \par\addvspace{1em}    
 }
