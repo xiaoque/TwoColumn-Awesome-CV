@@ -57,7 +57,7 @@
 \RequirePackage{multirow}
 % Needed to manage fonts
 \RequirePackage[quiet]{fontspec}
-\RequirePackage{fontawesome}
+\RequirePackage{fontawesome5}
 \RequirePackage[default,opentype]{sourcesanspro}
 % Needed to deal a paragraphs
 \RequirePackage{parskip}
@@ -265,7 +265,9 @@
 % Usage: \github{<github-nick>}
 \newcommand*{\github}[1]{\def\@github{#1}}
 
-
+% Defines writer's github (optional)
+% Usage: \license{<license name>}
+\newcommand*{\license}[1]{\def\@license{#1}}
 
 %----------------------------------------------------------------------------------------
 %	 2-COLUMNS DEFINITIONS
@@ -359,14 +361,15 @@
 \newcommand{\makeinfoList}{
     \setlength\tabcolsep{0pt}
     \par\addvspace{1em}
-    \begin{tabular*}{\textwidth}{L{\leftmarginwidth} L{0.7cm} L{\textwidth - 1.5cm}}
+    \begin{tabular*}{\textwidth - 0.3cm}{L{0.5cm}L{0.7cm}L{\textwidth - 1.5cm}}
         & {\color{awesome}\fixicon{\faPhone}} & \@mobile \\[2pt]
-        & {\color{awesome}\fixicon{\faMapMarker}} &  \@location \\[2pt]
+        & {\color{awesome}\fixicon{\faMapMarked}} &  \@location \\[2pt]
         & {\color{awesome}{\faEnvelope}} & \href{mailto:\@email}{\@email} \\[2pt]
-        & {\color{awesome}\fixicon{\faLinkedinSquare}} &  
-                    \href{https://www.linkedin.com/in/\@linkedin}{\@linkedin} \\[2pt]
-        & {\color{awesome}\fixicon{\faGithubSquare}} &  
-            \href{https://github.com/\@github}{\@github} \\
+        & {\color{awesome}\fixicon{\faGithub}} &  
+            \href{https://github.com/xiaoque}{\@github} \\ [2pt]
+        & {\color{awesome}\fixicon{\faLinkedinIn}} &  
+                \href{https://www.linkedin.com/in/rutian-liu-186b9237}{\@linkedin} \\ [2pt]
+        & {\color{awesome}\fixicon{\faAddressCard}} & \@license \\
     \end{tabular*}
     \par\addvspace{1em}    
 }
