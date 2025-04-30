@@ -369,7 +369,7 @@
             \href{https://github.com/xiaoque}{\@github} \\ [2pt]
         & {\color{awesome}\fixicon{\faLinkedinIn}} &  
                 \href{https://www.linkedin.com/in/rutian-liu-186b9237}{\@linkedin} \\ [2pt]
-        & {\color{awesome}\fixicon{\faAddressCard}} & \@license \\
+        & {\color{awesome}\fixicon{\faGithub}} & \@license \\
     \end{tabular*}
     \par\addvspace{1em}    
 }
@@ -498,3 +498,4 @@
 \newcommand*{\cvlanguage}[2]{%
   & \boldtextstyle{#1}  & : {#2} \\[0.3ex]
 }
+
